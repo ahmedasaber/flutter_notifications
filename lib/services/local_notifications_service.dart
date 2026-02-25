@@ -1,15 +1,18 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/browser.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart';
 
 class LocalNotificationsService {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin(); // create an instance of the plugin
 
-  static void onTap(NotificationResponse notificationResponse){}
+  static void onTap(NotificationResponse notificationResponse){
+    print(notificationResponse.payload);
+  }
 
   // init method to initialize the plugin
   static Future<void> init() async{
+    tz.initializeTimeZones(); //
     // create an instance of the initialization settings for both Android and iOS
     final InitializationSettings initializationSettings = InitializationSettings(
       android: AndroidInitializationSettings("@mipmap/ic_launcher"),
@@ -32,14 +35,14 @@ class LocalNotificationsService {
         importance: Importance.max,
         priority: Priority.high
       ),
-    ); //
+    ); // create an instance of the notification details with the settings for Android
 
     await flutterLocalNotificationsPlugin.show(
       id: 0,
       title: 'basic title',
       body: 'basic body',
       notificationDetails: notificationDetails,
-      payload: 'payload  repeated data'
+      payload: 'payload  repeated data', // data to be passed to the callback function when the user taps on the notification
     );
   }
 
@@ -79,7 +82,7 @@ class LocalNotificationsService {
       id: 2,
       title: 'Schedule title',
       body: 'Schedule body',
-      scheduledDate: TZDateTime.now(local).add(const Duration(seconds: 5)),
+      scheduledDate: TZDateTime.now(local).add(const Duration(seconds: 1)),
       notificationDetails: notificationDetails,
       payload: 'payload Schedule data',
       androidScheduleMode: AndroidScheduleMode.alarmClock,

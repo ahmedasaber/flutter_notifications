@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:push_notifications/firebase_options.dart';
+import 'package:push_notifications/notifications/local_notifications.dart';
 import 'package:push_notifications/notifications/push_notifications.dart';
 import 'package:push_notifications/services/local_notifications_service.dart';
 import 'package:push_notifications/services/push_notifications_services.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const PushNotifications(),
+      home: const LocalNotifications(),
     );
   }
 }

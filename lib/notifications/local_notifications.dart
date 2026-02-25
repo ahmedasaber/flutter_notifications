@@ -27,6 +27,11 @@ class LocalNotifications extends StatelessWidget {
               onTap: () => LocalNotificationsService.showRepeatedNotification(),
               onCancel: () => LocalNotificationsService.cancelNotification(1),
             ),
+            NotificationSection(
+              title: 'Schedule notification',
+              onTap: () => LocalNotificationsService.showScheduleNotification(),
+              onCancel: () => LocalNotificationsService.cancelNotification(2),
+            ),
           ],
         ),
       ),
