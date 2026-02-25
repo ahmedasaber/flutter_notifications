@@ -1,0 +1,92 @@
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/browser.dart';
+import 'package:timezone/timezone.dart';
+
+class LocalNotificationsService {
+  static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin(); // create an instance of the plugin
+
+  static void onTap(NotificationResponse notificationResponse){}
+
+  // init method to initialize the plugin
+  static Future<void> init() async{
+    // create an instance of the initialization settings for both Android and iOS
+    final InitializationSettings initializationSettings = InitializationSettings(
+      android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+      iOS: DarwinInitializationSettings(),
+    );
+
+    // initialize the plugin with the settings
+    await flutterLocalNotificationsPlugin.initialize(
+      settings: initializationSettings,
+      onDidReceiveNotificationResponse:  onTap, // callback function to handle the notification response when the user taps on the notification
+      onDidReceiveBackgroundNotificationResponse:  onTap, // callback function to handle the notification response when the app is in the background
+    );
+  }
+
+  static Future<void> showNotification() async{
+    NotificationDetails notificationDetails = NotificationDetails(
+      android: AndroidNotificationDetails(
+        'id 1',
+        'channel name',
+        importance: Importance.max,
+        priority: Priority.high
+      ),
+    ); //
+
+    await flutterLocalNotificationsPlugin.show(
+      id: 0,
+      title: 'basic title',
+      body: 'basic body',
+      notificationDetails: notificationDetails,
+      payload: 'payload  repeated data'
+    );
+  }
+
+  static Future<void> showRepeatedNotification() async{
+    NotificationDetails notificationDetails = NotificationDetails(
+      android: AndroidNotificationDetails(
+        'id 2',
+        'channel repeated name',
+        importance: Importance.max,
+        priority: Priority.high
+      ),
+    ); //
+
+    await flutterLocalNotificationsPlugin.periodicallyShow(
+      id: 1,
+      title: 'repeated title',
+      body: 'repeated body',
+      notificationDetails: notificationDetails,
+      payload: 'payload repeated data',
+      repeatInterval: RepeatInterval.everyMinute,
+      androidScheduleMode: AndroidScheduleMode.alarmClock
+    );
+  }
+
+  static Future<void> showScheduleNotification() async{
+    NotificationDetails notificationDetails = NotificationDetails(
+      android: AndroidNotificationDetails(
+        'id 3',
+        'channel repeated name',
+        importance: Importance.max,
+        priority: Priority.high
+      ),
+    ); //
+
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      id: 2,
+      title: 'Schedule title',
+      body: 'Schedule body',
+      scheduledDate: TZDateTime.now(local).add(const Duration(seconds: 5)),
+      notificationDetails: notificationDetails,
+      payload: 'payload Schedule data',
+      androidScheduleMode: AndroidScheduleMode.alarmClock,
+    );
+  }
+
+  static Future<void> cancelNotification(int id) async{
+    await flutterLocalNotificationsPlugin.cancel(id: id);
+  }
+}
