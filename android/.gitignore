@@ -13,5 +13,4 @@ key.properties
 **/*.keystore
 **/*.jks
 
-lib/constants.dart
-android/app/google-services.json
+/app/google-services.json

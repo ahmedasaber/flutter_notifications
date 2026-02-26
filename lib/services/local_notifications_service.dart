@@ -37,7 +37,8 @@ static void onTapBack(NotificationResponse notificationResponse){
         'id 1',
         'channel name',
         importance: Importance.max,
-        priority: Priority.high
+        priority: Priority.high,
+        sound: RawResourceAndroidNotificationSound('new_notification'),
       ),
     ); // create an instance of the notification details with the settings for Android
 
