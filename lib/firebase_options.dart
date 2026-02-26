@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
+import 'constants.dart';
+
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
@@ -49,16 +51,16 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD3NSi_K_0Md2IvK1-QxsXxn1qglqDWoSk',
+  static final FirebaseOptions android = FirebaseOptions(
+    apiKey: androidApiKey,
     appId: '1:564351626377:android:dbb084d4aad9bf10962a58',
     messagingSenderId: '564351626377',
     projectId: 'push-notifications-e95fe',
     storageBucket: 'push-notifications-e95fe.firebasestorage.app',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBiIkZTMjKPMfMVQhxwUYE5UVmpLcwpOBg',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: iosApiKey,
     appId: '1:564351626377:ios:790aef62bacd341c962a58',
     messagingSenderId: '564351626377',
     projectId: 'push-notifications-e95fe',

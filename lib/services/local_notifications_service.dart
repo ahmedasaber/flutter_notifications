@@ -1,13 +1,17 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotificationsService {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin(); // create an instance of the plugin
 
   static void onTap(NotificationResponse notificationResponse){
-    print(notificationResponse.payload);
+    print('during app state');
+  }
+static void onTapBack(NotificationResponse notificationResponse){
+    print('during background');
   }
 
   // init method to initialize the plugin
@@ -23,7 +27,7 @@ class LocalNotificationsService {
     await flutterLocalNotificationsPlugin.initialize(
       settings: initializationSettings,
       onDidReceiveNotificationResponse:  onTap, // callback function to handle the notification response when the user taps on the notification
-      onDidReceiveBackgroundNotificationResponse:  onTap, // callback function to handle the notification response when the app is in the background
+      onDidReceiveBackgroundNotificationResponse:  onTapBack, // callback function to handle the notification response when the app is in the background
     );
   }
 
@@ -78,11 +82,14 @@ class LocalNotificationsService {
     ); //
 
 
+    final TimezoneInfo currentTimeZone = await FlutterTimezone.getLocalTimezone(); // get the current timezone
+    tz.setLocalLocation(tz.getLocation(currentTimeZone.identifier)); // set local timezone to the current timezone
+
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id: 2,
       title: 'Schedule title',
       body: 'Schedule body',
-      scheduledDate: TZDateTime.now(local).add(const Duration(seconds: 1)),
+      scheduledDate: tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
       notificationDetails: notificationDetails,
       payload: 'payload Schedule data',
       androidScheduleMode: AndroidScheduleMode.alarmClock,
