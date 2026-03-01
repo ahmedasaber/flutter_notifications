@@ -1,5 +1,12 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:push_notifications/main.dart';
+import 'package:push_notifications/notifications/push_notifications.dart';
+import 'package:push_notifications/notifications/test.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -7,11 +14,22 @@ class LocalNotificationsService {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin(); // create an instance of the plugin
 
+  static final StreamController<NotificationResponse> streamController = StreamController<NotificationResponse>();
+
   static void onTap(NotificationResponse notificationResponse){
-    print('during app state');
+    // log('onTap');
+    // log(notificationResponse.id!.toString());
+    // log(notificationResponse.payload!.toString());
+
+    // 1. Navigate to a new screen using navigatorKey (method 1)
+    // navigatorKey.currentState!.push(MaterialPageRoute(builder: (_)=> TestScreen()));
+    // 2. Navigate to a new screen using Stream (method 2)
+    streamController.add(notificationResponse);
   }
-static void onTapBack(NotificationResponse notificationResponse){
-    print('during background');
+  static void onTapBack(NotificationResponse notificationResponse){
+    log('onTapBack');
+    log(notificationResponse.id!.toString());
+    log(notificationResponse.payload!.toString());
   }
 
   // init method to initialize the plugin
@@ -47,7 +65,7 @@ static void onTapBack(NotificationResponse notificationResponse){
       title: 'basic title',
       body: 'basic body',
       notificationDetails: notificationDetails,
-      payload: 'payload  repeated data', // data to be passed to the callback function when the user taps on the notification
+      payload: 'payload  basic data', // data to be passed to the callback function when the user taps on the notification
     );
   }
 

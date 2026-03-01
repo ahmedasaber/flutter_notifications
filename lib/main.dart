@@ -6,6 +6,9 @@ import 'package:push_notifications/notifications/push_notifications.dart';
 import 'package:push_notifications/services/local_notifications_service.dart';
 import 'package:push_notifications/services/push_notifications_services.dart';
 
+// ─── Global Key ─── use it to navigate in local notification service
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -24,6 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       home: const LocalNotifications(),
     );
   }
