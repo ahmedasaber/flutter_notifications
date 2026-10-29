@@ -17,7 +17,8 @@ void main() async{
   );
   PushNotificationsServices.init();
 
-  LocalNotificationsService.init();
+  await LocalNotificationsService.init();
+  await LocalNotificationsService.requestPermission();
   runApp(const MyApp());
 }
 
